@@ -5,3 +5,5 @@ The scalability of this system is crazy, we are starting to getting cramped in t
 Transitions table: (work in progress)
 
 Code explanation and architecture choices: (work in progress, estimated due 26.04)
+
+Input package traveling scheme (work in progress)
