@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://eec5ujuowf51"]
+[gd_scene load_steps=34 format=3 uid="uid://eec5ujuowf51"]
 
 [ext_resource type="Script" path="res://Player/HumanoidModel/Model.gd" id="1_mokw1"]
 [ext_resource type="Animation" uid="uid://q6o7ddogrjmv" path="res://Assets/Ready Animations/jump_sprint.res" id="2_gpv2h"]
@@ -22,9 +22,8 @@
 [ext_resource type="Script" path="res://Player/Moves/JumpSprint.gd" id="17_55h4n"]
 [ext_resource type="Script" path="res://Player/Moves/LandingSprint.gd" id="18_1o7ms"]
 [ext_resource type="Script" path="res://Player/Moves/Slash1.gd" id="21_nqfl1"]
-[ext_resource type="Script" path="res://Player/Moves/Combos/Slash1ToSlash2.gd" id="23_h7ji6"]
+[ext_resource type="PackedScene" uid="uid://bg5gwofry0vww" path="res://Player/Moves/Combos/ConsecutiveAttack.tscn" id="23_vx50f"]
 [ext_resource type="Script" path="res://Player/Moves/Slash2.gd" id="24_mrqgx"]
-[ext_resource type="Script" path="res://Player/Moves/Combos/Slash2ToSlash3.gd" id="26_x6kyi"]
 [ext_resource type="Script" path="res://Player/Moves/Slash3.gd" id="27_3su4b"]
 
 [sub_resource type="Animation" id="Animation_k5lpg"]
@@ -3086,14 +3085,20 @@ script = ExtResource("18_1o7ms")
 [node name="Slash1" type="Node" parent="States"]
 script = ExtResource("21_nqfl1")
 
-[node name="ToSlash2" type="Node" parent="States/Slash1"]
-script = ExtResource("23_h7ji6")
+[node name="ConsecutiveAttack" parent="States/Slash1" node_paths=PackedStringArray("root_move") instance=ExtResource("23_vx50f")]
+root_move = NodePath("..")
+panic_click_block = 0.1
+primary_input = "slash_1"
+next_attack = "slash_2"
 
 [node name="Slash2" type="Node" parent="States"]
 script = ExtResource("24_mrqgx")
 
-[node name="ToSlash3" type="Node" parent="States/Slash2"]
-script = ExtResource("26_x6kyi")
+[node name="ConsecutiveAttack" parent="States/Slash2" node_paths=PackedStringArray("root_move") instance=ExtResource("23_vx50f")]
+root_move = NodePath("..")
+panic_click_block = 0.1
+primary_input = "slash_1"
+next_attack = "slash_3"
 
 [node name="Slash3" type="Node" parent="States"]
 script = ExtResource("27_3su4b")

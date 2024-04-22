@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bg5gwofry0vww"]
+
+[ext_resource type="Script" path="res://Player/Moves/Combos/ConsecutiveAttack.gd" id="1_red5l"]
+
+[node name="ConsecutiveAttack" type="Node"]
+script = ExtResource("1_red5l")
