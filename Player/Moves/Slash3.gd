@@ -1,19 +1,64 @@
 extends Move
-class_name Slash3
 
 
 const TRANSITION_TIMING = 1.96
 
+var hit_damage = 15
 
-func _ready():
-	animation = "slash_3"
-	move_name = "slash_3"
+@onready var root_motion_track_number = animator.get_animation(animation).find_track("%GeneralSkeleton:Hips", Animation.TYPE_POSITION_3D)
 
 
-func check_relevance(input : InputPackage):
+func default_lifecycle(input : InputPackage):
 	if works_longer_than(TRANSITION_TIMING):
 		input.actions.sort_custom(moves_priority_sort)
 		return input.actions[0]
 	else:
 		return "okay"
 
+
+func update(input : InputPackage, delta : float):
+	manage_weapon_attack()
+	move_player(delta)
+
+
+func get_delta_position(delta_time : float) -> Vector3:
+	var animation_as_function = animator.get_animation(animation) as Animation
+	var previous_pos = animation_as_function.position_track_interpolate(root_motion_track_number, get_progress() - delta_time)
+	var current_pos = animation_as_function.position_track_interpolate(root_motion_track_number, get_progress())
+	var delta_pos = current_pos - previous_pos
+	delta_pos.y = 0
+	return delta_pos
+
+
+func manage_weapon_attack():
+	if works_between(0.6816, 0.7765):
+		player.model.active_weapon.is_attacking = true
+	else:
+		player.model.active_weapon.is_attacking = false
+
+
+func move_player(delta : float):
+	player.velocity = player.get_quaternion() * get_delta_position(delta) / delta
+	if not player.is_on_floor():
+		player.velocity.y -= ProjectSettings.get_setting("physics/3d/default_gravity") * delta
+		has_forced_move = true
+		forced_move = "midair"
+	player.move_and_slide()
+
+
+func form_hit_data(weapon : Weapon) -> HitData:
+	var hit = HitData.new()
+	hit.damage = hit_damage
+	hit.hit_move_animation = animation
+	hit.is_parryable = is_parryable()
+	hit.weapon = player.model.active_weapon
+	return hit
+
+
+func on_enter_state():
+	animator.root_motion_track = "%GeneralSkeleton:Hips:position"
+
+func on_exit_state():
+	animator.root_motion_track = ""
+	player.model.active_weapon.hitbox_ignore_list.clear()
+	player.model.active_weapon.is_attacking = false

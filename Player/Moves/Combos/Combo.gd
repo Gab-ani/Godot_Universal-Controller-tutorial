@@ -2,7 +2,8 @@ extends Node
 class_name Combo
 
 
-var triggered_move : String
+@onready var move : Move 
+@export var triggered_move : String
 
 
 func is_triggered(_input : InputPackage) -> bool:
@@ -19,7 +20,7 @@ func is_triggered(_input : InputPackage) -> bool:
 # Many different factors can regulate Move's transition, I can imagine adrenaline level,
 # fatique level, mana/stamina statuses, some unique items in the inventory, some finishing
 # limbs-choping with a random chance of procking, enemies type, 
-# different buffs, all this can influent or states flow... 
+# different buffs, all this can influent our states flow... 
 
 # Imagine modifying it all every time adding another elif into Move's check_transition.
 # With combos, you-from-the-future can work on a project for a year and then suddenly decide

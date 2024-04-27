@@ -1,5 +1,4 @@
 extends Move
-class_name JumpSprint
 
 const VERTICAL_SPEED_ADDED : float = 2.5
 
@@ -8,11 +7,8 @@ const JUMP_TIMING = 0.0657
 
 var jumped : bool = false
 
-func _ready():
-	animation = "jump_sprint"
 
-
-func check_relevance(input : InputPackage):
+func default_lifecycle(input : InputPackage):
 	if works_longer_than(TRANSITION_TIMING):
 		jumped = false
 		return "midair"

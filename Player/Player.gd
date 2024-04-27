@@ -9,7 +9,8 @@ extends CharacterBody3D
 
 func _ready():
 	visuals.accept_model(model)
-	model.animator.play("run")
+	#$CameraMount/PlayerCamera.current = false
+	#print_tree_pretty()
 
 
 func _physics_process(delta):

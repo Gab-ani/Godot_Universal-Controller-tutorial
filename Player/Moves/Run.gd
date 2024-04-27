@@ -7,14 +7,9 @@ const SPEED = 3.0
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 
-func _ready():
-	animation = "run"
-
-
-func check_relevance(input : InputPackage):
+func default_lifecycle(input : InputPackage):
 	if not player.is_on_floor():
 		return "midair"
-	
 	input.actions.sort_custom(moves_priority_sort)
 	if input.actions[0] == "run":
 		return "okay"

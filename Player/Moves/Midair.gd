@@ -1,5 +1,4 @@
 extends Move
-class_name Midair
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -10,12 +9,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var landing_height : float = 1.163
 
 
-func _ready():
-	animation = "midair"
-	move_name = "midair"
-
-
-func check_relevance(_input : InputPackage):
+func default_lifecycle(_input : InputPackage):
 	var floor_point = downcast.get_collision_point()
 	if root_attachment.global_position.distance_to(floor_point) < landing_height:
 		var xz_velocity = player.velocity

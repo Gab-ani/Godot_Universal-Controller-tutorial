@@ -27,18 +27,22 @@ var current_move : Move
 	"landing_sprint" : $States/LandingSprint,
 	"slash_1" : $States/Slash1,
 	"slash_2" : $States/Slash2,
-	"slash_3" : $States/Slash3
+	"slash_3" : $States/Slash3,
+	"staggered" : $States/Staggered,
+	"parry" : $States/Parry,
+	"parried" : $States/Parried,
 }
-
 
 func _ready():
 	current_move = moves["idle"]
-	for move in moves.values():
+	for move : Move in moves.values():
 		move.player = player
+		move.moves_data_repo = $MovesData
+		move.assign_combos()
 
 
 func update(input : InputPackage, delta : float):
-	input = combat.translate_combat_actions(input)
+	input = combat.contextualize(input)
 	var relevance = current_move.check_relevance(input)
 	if relevance != "okay":
 		switch_to(relevance)

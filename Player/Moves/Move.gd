@@ -1,18 +1,41 @@
 extends Node
 class_name Move
 
-
 # all-move variables here
 var player : CharacterBody3D
 
 # unique fields to redefine
-var animation : String
-var move_name : String
+@export var animation : String
+@export var backend_animation : String
+@export var animator : AnimationPlayer
+
+# general fields for internal usage
+@onready var combos : Array[Combo] 
+
+var enter_state_time : float
+
 var has_queued_move : bool = false
 var queued_move : String = "none, drop error please"
 
-# general fields for internal usage
-var enter_state_time : float
+var has_forced_move : bool = false
+var forced_move : String = "none, drop error please"
+
+## parameters windows incorporation way N2
+# here and below in methods because I chose this way
+var moves_data_repo : MovesDataRepository
+
+
+## parameters windows incorporation way N1
+#const default_window_length = 3
+#@export_group("vulnerability")
+#var is_invulnerable : bool = false
+#@export_range(0, default_animation_length, 0.01, "or_greater") var invulnerability_start : float = 0
+#@export_range(0, default_animation_length, 0.01,"or_greater") var invulnerability_end : float = 0
+# then implement short getters for your parameters
+#func is_vulnerable() -> bool:
+#if works_between(invulnerability_start, invulnerability_end):
+#	return false
+#return true
 
 
 static var moves_priority : Dictionary = {
@@ -26,7 +49,10 @@ static var moves_priority : Dictionary = {
 	"landing_sprint" : 10,
 	"slash_1" : 15,
 	"slash_2" : 15,
-	"slash_3" :15
+	"slash_3" : 15,
+	"parry" : 20,
+	"parried" : 100,
+	"staggered" : 100,
 }
 
 
@@ -38,26 +64,17 @@ static func moves_priority_sort(a : String, b : String):
 
 # There is a wall of text as a general guide on this function in the end of the page, 
 # because I'm too lazy to write proper docs for a "tutorial" project
-func check_relevance(_input : InputPackage) -> String:
-	print_debug("error, implement the check_relevance function on your state")
-	return "error, implement the check_relevance function on your state"
-
-
-func update(_input : InputPackage, _delta : float):
-	pass
-
-
-func on_enter_state():
-	pass
-
-func on_exit_state():
-	pass
+func check_relevance(input : InputPackage) -> String:
+	if has_forced_move:
+		has_forced_move = false
+		return forced_move
+	
+	check_combos(input)
+	return default_lifecycle(input) 
 
 
 func check_combos(input : InputPackage):
-	# works if only children we have are combos, use defined on ready array if not
-	var available_combos = get_children()
-	for combo : Combo in available_combos:
+	for combo : Combo in combos:
 		if combo.is_triggered(input):
 			has_queued_move = true
 			queued_move = combo.triggered_move
@@ -87,31 +104,46 @@ func works_between(start : float, finish : float) -> bool:
 	return false
 
 
+func is_vulnerable() -> bool:
+	return moves_data_repo.get_vulnerable(backend_animation, get_progress())
 
-# General Moves heir usage guide.
+func is_interruptable() -> bool:
+	return moves_data_repo.get_interruptable(backend_animation, get_progress())
 
-# > check_relevance function aims to be short and simple.
-# 	Its general structure is as follows: 
-#	if (move is ready to transition) :
-#		transition to the highest priority out there
-#	else:
-#		return "okay" to save our managing status.
-#
-# 	Move readyness for transition is generally a simple function based on timings or statuses of the player.
-#	If you are starting to understand that your transition readyness is a complex method, OR
-# 	if you are tempted to add third branching operator into your check_relevance function,
-#	seriously consider if Combo can do this logic for you, you won't regret its usage I promise.
-#	(Combo is clickable even from comments btw)
+func is_parryable() -> bool:
+	return moves_data_repo.get_parryable(backend_animation, get_progress())
 
-# > update functions manages perframe behaviour of your Move.
-#	There are two update types: constant change and a single dynamic update on some timing.
-#	To implement simple constant changes, try to find some physics abstraction for them to make
-#	engine work for you. If your constant changes are too complex, try to avoid hardcoding 
-#	the behaviour into a giant update, better shove the changes data into a backend animation or
-#	some other data structure resource.
-#	To implement timed changes, use a flag and work with timings via get_progress() and Co.
-#	To roughly base your internal timings on the players behaviour, you can check skeleton
-#	animation for reference. But for the love of god please avoid referensing skeleton and animator
-#	in any shape way or form in the Moves code directly. This way your Move "backend" is free from
-#	thousand different ways someone (probably you from the future) can mess up your skeleton, scene composition,
-#	animations, names libraries etc.
+
+func default_lifecycle(input : InputPackage) -> String:
+	#can return idle, but I want this error to be thrown to make me-from-the-future's life easier
+	return "implement default lyfecycle pepega " + animation
+
+func update(_input : InputPackage, _delta : float):
+	pass
+
+func on_enter_state():
+	pass
+
+func on_exit_state():
+	pass
+
+func assign_combos():
+	for child in get_children():
+		if child is Combo:
+			combos.append(child)
+			child.move = self
+
+
+func form_hit_data(weapon : Weapon) -> HitData:
+	print("someone tries to get hit by default Move")
+	return HitData.blank()
+
+
+func react_on_hit(hit : HitData):
+	if is_interruptable():
+		has_forced_move = true
+		forced_move = "staggered"
+
+func react_on_parry(hit : HitData):
+	has_forced_move = true
+	forced_move = "parried"

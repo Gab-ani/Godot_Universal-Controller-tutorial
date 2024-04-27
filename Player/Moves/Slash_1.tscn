@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://d4bm1ogsxjkhx"]
+
+[ext_resource type="Script" path="res://Player/Moves/Slash1.gd" id="1_vl514"]
+
+[node name="Slash1" type="Node"]
+script = ExtResource("1_vl514")

@@ -2,11 +2,9 @@ extends Move
 class_name Idle
 
 
-func _ready():
-	animation = "idle"
-
-
-func check_relevance(input) -> String:
+func default_lifecycle(input) -> String:
+	if not player.is_on_floor():
+		return "midair"
 	input.actions.sort_custom(moves_priority_sort)
 	return input.actions[0]
 

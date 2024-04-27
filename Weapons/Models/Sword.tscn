@@ -6,7 +6,8 @@
 radius = 0.2
 height = 1.5
 
-[node name="Sword" type="CharacterBody3D"]
+[node name="Sword" type="Area3D"]
+collision_layer = 4
 script = ExtResource("1_h1qbp")
 
 [node name="Handle" type="CSGBox3D" parent="."]
@@ -15,4 +16,3 @@ size = Vector3(0.05, 0.2, 0.05)
 [node name="HitZone" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.560329, 0)
 shape = SubResource("CapsuleShape3D_6hf6c")
-disabled = true
