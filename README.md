@@ -2,6 +2,6 @@ Branch for the 4th episode of universal character controller series. In this epi
 
 Transitions table: (renewing in progress)
 
-Code explanation and architecture choices: (work in progress, estimated due 03.04)
+Code explanation and architecture choices: (work in progress, estimated due 03.05)
 
 Input package traveling scheme: (renewing in progress)
