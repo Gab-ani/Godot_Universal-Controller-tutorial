@@ -4,7 +4,7 @@ The scalability of this system is so crazy, we are starting to get uncomfortably
 
 [Transitions table](https://docs.google.com/spreadsheets/d/1g3Epn-2Rf-fAI8XPp9UfOkeH6QwFUIz8fWFDrPdhe40/edit?usp=sharing)
 
-Code explanation and architecture choices: (work in progress, estimated due 26.04)
+Code explanation and architecture choices: https://www.youtube.com/watch?v=RmdtA7G7cAE
 
 Input package traveling scheme:
 ![Player](https://github.com/Gab-ani/Godot_Universal-Controller-tutorial/assets/25298003/9eb88ff2-1a54-4a83-a320-3cc920ccb0e8)
