@@ -16,7 +16,7 @@ func default_lifecycle(_input : InputPackage):
 		return "okay"
 
 
-func update(_input : InputPackage, delta ):
+func update(_input : InputPackage, _delta ):
 	if works_longer_than(JUMP_TIMING):
 		if not jumped:
 			player.velocity.y += VERTICAL_SPEED_ADDED

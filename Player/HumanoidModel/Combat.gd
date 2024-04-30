@@ -3,8 +3,6 @@ class_name HumanoidCombat
 
 @onready var model = $".." as PlayerModel
 
-var events_buffer : Array[String] = ["falling"]
-
 static var inputs_priority : Dictionary = {
 	"light_attack_pressed" : 1,
 	"heavy_attack_pressed" : 2,
@@ -13,10 +11,8 @@ static var inputs_priority : Dictionary = {
 
 func contextualize(new_input : InputPackage) -> InputPackage:
 	translate_inputs(new_input)
-	new_input.triggered_reactions.append_array(events_buffer)
+	filter_with_resources(new_input)
 	return new_input
-
-
 
 
 func translate_inputs(input : InputPackage):
@@ -25,6 +21,11 @@ func translate_inputs(input : InputPackage):
 		var best_input_action : String = input.combat_actions[0]
 		var translated_into_move_name : String = model.active_weapon.basic_attacks[best_input_action]
 		input.actions.append(translated_into_move_name)
+
+
+func filter_with_resources(input : InputPackage):
+	if model.resources.statuses.has("fatique"):
+		input.actions.erase("sprint")
 
 
 static func combat_action_priority_sort(a : String, b : String):

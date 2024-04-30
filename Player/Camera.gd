@@ -9,7 +9,7 @@ func _ready():
 	top_level = true
 
 
-func _process(delta):
+func _process(_delta):
 	global_position = player.global_position
 
 

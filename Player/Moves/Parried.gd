@@ -1,12 +1,17 @@
 extends Move
 
 
-const ANIMATION_END : float = 1.7833
+const ANIMATION_END : float = 3
 
-func check_relevance(input : InputPackage):
+func default_lifecycle(input : InputPackage):
 	if works_longer_than(ANIMATION_END):
-		input.actions.sort_custom(moves_priority_sort)
-		return input.actions[0]
-	else:
-		return "okay"
+		return best_input_that_can_be_paid(input)
+	return "okay"
 
+
+func on_enter_state():
+	player.add_to_group("parried_humanoid")
+
+
+func on_exit_state():
+	player.remove_from_group("parried_humanoid")

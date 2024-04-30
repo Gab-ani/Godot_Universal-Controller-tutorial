@@ -8,7 +8,7 @@ const JUMP_TIMING = 0.0657
 var jumped : bool = false
 
 
-func default_lifecycle(input : InputPackage):
+func default_lifecycle(_input : InputPackage):
 	if works_longer_than(TRANSITION_TIMING):
 		jumped = false
 		return "midair"
@@ -16,7 +16,7 @@ func default_lifecycle(input : InputPackage):
 		return "okay"
 
 
-func update(input : InputPackage, delta ):
+func update(_input : InputPackage, _delta ):
 	if works_longer_than(JUMP_TIMING):
 		if not jumped:
 			player.velocity.y += VERTICAL_SPEED_ADDED

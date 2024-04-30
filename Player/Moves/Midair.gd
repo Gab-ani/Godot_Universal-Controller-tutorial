@@ -21,6 +21,6 @@ func default_lifecycle(_input : InputPackage):
 		return "okay"
 
 
-func update(input : InputPackage, delta ):
+func update(_input : InputPackage, delta ):
 	player.velocity.y -= gravity * delta
 	player.move_and_slide()

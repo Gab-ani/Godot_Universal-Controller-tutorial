@@ -1,13 +1,17 @@
 extends Node
 class_name Move
 
-# all-move variables here
 var player : CharacterBody3D
+var resources : HumanoidResources
 
 # unique fields to redefine
 @export var animation : String
 @export var backend_animation : String
 @export var animator : AnimationPlayer
+
+# I can tolerate up to two _costs, 
+# the moment I need a third one, I'll create a small ResourceCost class to pay them.
+@export var stamina_cost : float = 0
 
 # general fields for internal usage
 @onready var combos : Array[Combo] 
@@ -51,8 +55,10 @@ static var moves_priority : Dictionary = {
 	"slash_2" : 15,
 	"slash_3" : 15,
 	"parry" : 20,
+	"ripost" : 25,
 	"parried" : 100,
 	"staggered" : 100,
+	"death" : 200
 }
 
 
@@ -62,22 +68,36 @@ static func moves_priority_sort(a : String, b : String):
 	else:
 		return false
 
-# There is a wall of text as a general guide on this function in the end of the page, 
-# because I'm too lazy to write proper docs for a "tutorial" project
+
 func check_relevance(input : InputPackage) -> String:
 	if has_forced_move:
 		has_forced_move = false
 		return forced_move
 	
-	check_combos(input)
-	return default_lifecycle(input) 
+	check_combos(input) # if resources want to deny something
+	
+	return default_lifecycle(input)  # if resources want to deny something again
 
 
 func check_combos(input : InputPackage):
 	for combo : Combo in combos:
-		if combo.is_triggered(input):
+		if combo.is_triggered(input) and resources.can_be_paid(player.model.moves[combo.triggered_move]):
 			has_queued_move = true
 			queued_move = combo.triggered_move
+
+
+func best_input_that_can_be_paid(input : InputPackage) -> String:
+	input.actions.sort_custom(moves_priority_sort)
+	for action in input.actions:
+		if resources.can_be_paid(player.model.moves[action]):
+			if player.model.moves[action] == self:
+				return "okay"
+			else:
+				return action
+	return "throwing because for some reason input.actions doesn't contain even idle"  
+
+func update_resources(delta : float):
+	resources.update(delta)
 
 
 func mark_enter_state():
@@ -114,7 +134,7 @@ func is_parryable() -> bool:
 	return moves_data_repo.get_parryable(backend_animation, get_progress())
 
 
-func default_lifecycle(input : InputPackage) -> String:
+func default_lifecycle(_input : InputPackage) -> String:
 	#can return idle, but I want this error to be thrown to make me-from-the-future's life easier
 	return "implement default lyfecycle pepega " + animation
 
@@ -134,16 +154,27 @@ func assign_combos():
 			child.move = self
 
 
-func form_hit_data(weapon : Weapon) -> HitData:
+func form_hit_data(_weapon : Weapon) -> HitData:
 	print("someone tries to get hit by default Move")
 	return HitData.blank()
 
 
 func react_on_hit(hit : HitData):
+	if is_vulnerable():
+		resources.lose_health(hit.damage)
 	if is_interruptable():
-		has_forced_move = true
-		forced_move = "staggered"
+		try_force_move("staggered")
+	hit.queue_free()
 
-func react_on_parry(hit : HitData):
+
+func react_on_parry(_hit : HitData):
 	has_forced_move = true
 	forced_move = "parried"
+
+
+func try_force_move(new_forced_move : String):
+	if not has_forced_move:
+		has_forced_move = true
+		forced_move = new_forced_move
+	elif moves_priority[new_forced_move] >= moves_priority[forced_move]:
+		forced_move = new_forced_move

@@ -4,6 +4,8 @@ class_name InputGatherer
 func gather_input() -> InputPackage:
 	var new_input = InputPackage.new()
 	
+	new_input.actions.append("idle")
+	
 	new_input.input_direction = Input.get_vector("left", "right", "forward", "backward")
 	if new_input.input_direction != Vector2.ZERO:
 		new_input.actions.append("run")
@@ -21,9 +23,6 @@ func gather_input() -> InputPackage:
 	
 	if Input.is_action_just_pressed("light_attack"):
 		new_input.combat_actions.append("light_attack_pressed")
-	
-	if new_input.actions.is_empty():
-		new_input.actions.append("idle")
 	
 	#print(new_input.input_direction)
 	return new_input

@@ -11,13 +11,11 @@ func default_lifecycle(input : InputPackage):
 		has_queued_move = false
 		return queued_move
 	elif works_longer_than(TRANSITION_TIMING):
-		input.actions.sort_custom(moves_priority_sort)
-		return input.actions[0]
-	else:
-		return "okay"
+		return best_input_that_can_be_paid(input)
+	return "okay"
 
 
-func update(input : InputPackage, float):
+func update(_input : InputPackage, _delta : float):
 	if works_between(0.25, 0.44):
 		player.model.active_weapon.is_attacking = true
 	else:

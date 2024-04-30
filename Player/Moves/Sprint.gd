@@ -1,22 +1,23 @@
 extends Move
-class_name Sprint
 
 const SPEED = 5.0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
+@export var sprint_stamina_cost = 20 # per sec so multiply by delta
 
 func default_lifecycle(input : InputPackage):
 	if not player.is_on_floor():
 		return "midair"
-	input.actions.sort_custom(moves_priority_sort)
-	if input.actions[0] == "sprint":
-		return "okay"
-	return input.actions[0]
+	
+	return best_input_that_can_be_paid(input)
 
 
 func update(input : InputPackage, delta : float):
+	resources.lose_stamina(sprint_stamina_cost * delta)
+	if resources.stamina < sprint_stamina_cost * delta:
+		try_force_move("run")
 	player.velocity = velocity_by_input(input, delta)
 	player.look_at(player.global_position - player.velocity)
 	player.move_and_slide()

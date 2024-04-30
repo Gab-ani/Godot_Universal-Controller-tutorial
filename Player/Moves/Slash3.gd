@@ -10,15 +10,22 @@ var hit_damage = 15
 
 func default_lifecycle(input : InputPackage):
 	if works_longer_than(TRANSITION_TIMING):
-		input.actions.sort_custom(moves_priority_sort)
-		return input.actions[0]
-	else:
-		return "okay"
+		return best_input_that_can_be_paid(input)
+	return "okay"
 
 
-func update(input : InputPackage, delta : float):
+func update(_input : InputPackage, delta : float):
 	manage_weapon_attack()
 	move_player(delta)
+
+
+func move_player(delta : float):
+	player.velocity = player.get_quaternion() * get_delta_position(delta) / delta
+	if not player.is_on_floor():
+		player.velocity.y -= ProjectSettings.get_setting("physics/3d/default_gravity") * delta
+		has_forced_move = true
+		forced_move = "midair"
+	player.move_and_slide()
 
 
 func get_delta_position(delta_time : float) -> Vector3:
@@ -35,15 +42,6 @@ func manage_weapon_attack():
 		player.model.active_weapon.is_attacking = true
 	else:
 		player.model.active_weapon.is_attacking = false
-
-
-func move_player(delta : float):
-	player.velocity = player.get_quaternion() * get_delta_position(delta) / delta
-	if not player.is_on_floor():
-		player.velocity.y -= ProjectSettings.get_setting("physics/3d/default_gravity") * delta
-		has_forced_move = true
-		forced_move = "midair"
-	player.move_and_slide()
 
 
 func form_hit_data(weapon : Weapon) -> HitData:
