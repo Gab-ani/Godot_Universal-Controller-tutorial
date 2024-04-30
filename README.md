@@ -1,10 +1,7 @@
-It came to me, spamming repos for every episode is stupid, so I will organise them as branches instead.
-In this episode, our nice architecture is starting to bear fruits. In about 15 minutes of video (and about 14 hours of real work including design and assets which is absolutely stellar result) we will leap from basic character demo to a third person character that has three jump behaviours and three melee hits that can be queued into comboing series.
-The scalability of this system is so crazy, we are starting to get uncomfortably cramped in the borders of the character controller. All what separates us from the full game development is creation of characters resources and interfaces for interaction with other entities, for example, damaging them or getting hit and react.
+Branch for the 4th episode of universal character controller series. In this episode we are leaving the borders of the player character and starting to interact with outer world. The first think we are getting in this episode is a resources system with HP and stamina to waste on our strikes and sprints (actually work in progress because parries are more interesting, lmao). Then we'll create the workflow for complex interactions between different entities such as hits, staggers and a parry. As always, trying to uphold those code standards so not a fucking signal emitted in the entire project(althou a couple are connected, sadly).
 
-[Transitions table](https://docs.google.com/spreadsheets/d/1g3Epn-2Rf-fAI8XPp9UfOkeH6QwFUIz8fWFDrPdhe40/edit?usp=sharing)
+Transitions table: (renewing in progress)
 
-Code explanation and architecture choices: (work in progress, estimated due 26.04)
+Code explanation and architecture choices: (work in progress, estimated due 03.05)
 
-Input package traveling scheme:
-![Player](https://github.com/Gab-ani/Godot_Universal-Controller-tutorial/assets/25298003/9eb88ff2-1a54-4a83-a320-3cc920ccb0e8)
+Input package traveling scheme: (renewing in progress)
