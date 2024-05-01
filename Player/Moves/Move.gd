@@ -29,19 +29,6 @@ var forced_move : String = "none, drop error please"
 var moves_data_repo : MovesDataRepository
 
 
-## parameters windows incorporation way N1
-#const default_window_length = 3
-#@export_group("vulnerability")
-#var is_invulnerable : bool = false
-#@export_range(0, default_animation_length, 0.01, "or_greater") var invulnerability_start : float = 0
-#@export_range(0, default_animation_length, 0.01,"or_greater") var invulnerability_end : float = 0
-# then implement short getters for your parameters
-#func is_vulnerable() -> bool:
-#if works_between(invulnerability_start, invulnerability_end):
-#	return false
-#return true
-
-
 static var moves_priority : Dictionary = {
 	"idle" : 1,
 	"run" : 2,
@@ -74,9 +61,9 @@ func check_relevance(input : InputPackage) -> String:
 		has_forced_move = false
 		return forced_move
 	
-	check_combos(input) # if resources want to deny something
+	check_combos(input) 
 	
-	return default_lifecycle(input)  # if resources want to deny something again
+	return default_lifecycle(input)  
 
 
 func check_combos(input : InputPackage):
@@ -168,8 +155,7 @@ func react_on_hit(hit : HitData):
 
 
 func react_on_parry(_hit : HitData):
-	has_forced_move = true
-	forced_move = "parried"
+	try_force_move("parried")
 
 
 func try_force_move(new_forced_move : String):

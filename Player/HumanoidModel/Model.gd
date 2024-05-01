@@ -62,6 +62,6 @@ func switch_to(state : String):
 	current_move.on_exit_state()
 	current_move = moves[state]
 	current_move.on_enter_state()
-	resources.pay_resource_cost(current_move)
 	current_move.mark_enter_state()
+	resources.pay_resource_cost(current_move)
 	animator.play(current_move.animation)
