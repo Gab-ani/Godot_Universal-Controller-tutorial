@@ -8,8 +8,6 @@ func _ready():
 
 
 func on_contact(area : Node3D):
-	#print("hitbox senses something")
-	
 	if is_eligible_attacking_weapon(area):
 		area.hitbox_ignore_list.append(self)
 		model.current_move.react_on_hit(area.get_hit_data())

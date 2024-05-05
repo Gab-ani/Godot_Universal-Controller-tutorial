@@ -53,7 +53,6 @@ transform = Transform3D(0.000680641, 0, 1, 0, 1, 0, -1, 0, 0.000680641, 0, -0.5,
 
 [node name="player_debug_sphere" type="CSGSphere3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.974622, 0)
-visible = false
 material_override = SubResource("StandardMaterial3D_qkxf5")
 radius = 0.2
 

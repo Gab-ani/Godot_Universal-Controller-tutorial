@@ -16,6 +16,7 @@ class_name HumanoidResources
 var statuses : Array[String]
 const FATIQUE_TRESHOLD = 20
 
+
 func update(delta : float):
 	gain_stamina(stamina_regeneration_rate * delta)
 
@@ -25,20 +26,14 @@ func pay_resource_cost(move : Move):
 
 
 func can_be_paid(move : Move) -> bool:
-	#if move.stamina_cost < stamina:
-		#return true
-	#return false
 	if stamina > 0 or move.stamina_cost == 0:
 		return true
 	return false
 
 # F a part of polymorphism, it doesn't work
 #func can_be_paid(move_name : String) -> bool:
-	# for more dark-souls-ish variant just use if stamina > 0
 	#var move = model.moves[move_name]
-	#if move.stamina_cost < stamina:
-		#return true
-	#return false
+	#return can_be_paid(move)
 
 
 func lose_health(amount : float):

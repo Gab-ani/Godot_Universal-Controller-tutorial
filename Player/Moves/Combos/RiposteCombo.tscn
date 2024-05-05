@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bjxvmgetwrvkc"]
+
+[ext_resource type="Script" path="res://Player/Moves/Combos/Ripost.gd" id="1_hm647"]
+
+[node name="Riposte" type="Node"]
+script = ExtResource("1_hm647")
+triggered_move = "ripost"

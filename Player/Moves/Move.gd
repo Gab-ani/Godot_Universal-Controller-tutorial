@@ -42,7 +42,7 @@ static var moves_priority : Dictionary = {
 	"slash_2" : 15,
 	"slash_3" : 15,
 	"parry" : 20,
-	"ripost" : 25,
+	"riposte" : 25,
 	"parried" : 100,
 	"staggered" : 100,
 	"death" : 200
@@ -60,10 +60,10 @@ func check_relevance(input : InputPackage) -> String:
 	if has_forced_move:
 		has_forced_move = false
 		return forced_move
-	
-	check_combos(input) 
-	
-	return default_lifecycle(input)  
+	# nah, too early
+	check_combos(input) # we need to individually deny combos(9(
+	# too late
+	return default_lifecycle(input)   # and also to work in updates sometime
 
 
 func check_combos(input : InputPackage):
@@ -82,6 +82,7 @@ func best_input_that_can_be_paid(input : InputPackage) -> String:
 			else:
 				return action
 	return "throwing because for some reason input.actions doesn't contain even idle"  
+
 
 func update_resources(delta : float):
 	resources.update(delta)

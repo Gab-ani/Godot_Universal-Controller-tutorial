@@ -29,7 +29,7 @@ func move_player(delta : float):
 
 
 func get_delta_position(delta_time : float) -> Vector3:
-	var animation_as_function = animator.get_animation(animation) as Animation
+	var animation_as_function = animator.get_animation("slash_3") as Animation
 	var previous_pos = animation_as_function.position_track_interpolate(root_motion_track_number, get_progress() - delta_time)
 	var current_pos = animation_as_function.position_track_interpolate(root_motion_track_number, get_progress())
 	var delta_pos = current_pos - previous_pos
@@ -53,10 +53,6 @@ func form_hit_data(weapon : Weapon) -> HitData:
 	return hit
 
 
-func on_enter_state():
-	animator.root_motion_track = "%GeneralSkeleton:Hips:position"
-
 func on_exit_state():
-	animator.root_motion_track = ""
 	player.model.active_weapon.hitbox_ignore_list.clear()
 	player.model.active_weapon.is_attacking = false

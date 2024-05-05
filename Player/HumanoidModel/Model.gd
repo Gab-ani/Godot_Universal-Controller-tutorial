@@ -33,7 +33,7 @@ var current_move : Move
 	"slash_3" : $States/Slash3,
 	"staggered" : $States/Staggered,
 	"parry" : $States/Parry,
-	"ripost" : $States/Ripost,
+	"riposte" : $States/Riposte,
 	"parried" : $States/Parried,
 	"death" : $States/Death,
 }

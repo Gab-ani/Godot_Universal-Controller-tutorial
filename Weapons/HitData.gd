@@ -9,3 +9,4 @@ var weapon : Weapon
 
 static func blank() -> HitData:
 	return HitData.new()
+

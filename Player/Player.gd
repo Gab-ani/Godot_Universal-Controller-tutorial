@@ -5,6 +5,7 @@ extends CharacterBody3D
 @onready var model = $Model as PlayerModel
 @onready var visuals = $Visuals as PlayerVisuals
 @onready var camera_mount = $CameraMount
+@onready var collider = $Collider
 
 
 func _ready():
