@@ -1,5 +1,6 @@
 extends Move
 
+
 const VERTICAL_SPEED_ADDED : float = 2.5
 
 const TRANSITION_TIMING = 0.44  
@@ -19,6 +20,6 @@ func default_lifecycle(_input : InputPackage):
 func update(_input : InputPackage, _delta ):
 	if works_longer_than(JUMP_TIMING):
 		if not jumped:
-			player.velocity.y += VERTICAL_SPEED_ADDED
+			humanoid.velocity.y += VERTICAL_SPEED_ADDED
 			jumped = true
-	player.move_and_slide()
+	humanoid.move_and_slide()

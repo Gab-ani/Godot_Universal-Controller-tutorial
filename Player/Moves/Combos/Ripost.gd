@@ -3,7 +3,8 @@ extends Combo
 
 
 func is_triggered(input : InputPackage) -> bool:
-	if input.actions.has("slash_1") and have_target_for_ripost():
+	# if input.actions.has( current weapon light attack move code ) in future for scalability
+	if input.actions.has("longsword_1") and have_target_for_ripost():
 		return true
 	return false
 
@@ -15,6 +16,6 @@ func is_triggered(input : InputPackage) -> bool:
 func have_target_for_ripost() -> bool:
 	var parried_victims = get_tree().get_nodes_in_group("parried_humanoid")
 	for humanoid in parried_victims:
-		if humanoid.global_position.distance_to(move.player.global_position) < 2:
+		if humanoid.global_position.distance_to(move.humanoid.global_position) < 2:
 			return true
 	return false

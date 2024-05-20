@@ -12,7 +12,7 @@ var landing_height : float = 1.163
 func default_lifecycle(_input : InputPackage):
 	var floor_point = downcast.get_collision_point()
 	if root_attachment.global_position.distance_to(floor_point) < landing_height:
-		var xz_velocity = player.velocity
+		var xz_velocity = humanoid.velocity
 		xz_velocity.y = 0
 		if xz_velocity.length_squared() >= 10:
 			return "landing_sprint"
@@ -22,5 +22,5 @@ func default_lifecycle(_input : InputPackage):
 
 
 func update(_input : InputPackage, delta ):
-	player.velocity.y -= gravity * delta
-	player.move_and_slide()
+	humanoid.velocity.y -= gravity * delta
+	humanoid.move_and_slide()

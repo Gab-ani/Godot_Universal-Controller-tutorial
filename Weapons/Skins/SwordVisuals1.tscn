@@ -7,6 +7,6 @@ metallic = 1.0
 [node name="SwordVisuals1" type="Node3D"]
 
 [node name="Core" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.702255, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.475717, 0)
 material_override = SubResource("StandardMaterial3D_310c4")
-size = Vector3(0.05, 1.5, 0.05)
+size = Vector3(0.05, 1, 0.05)

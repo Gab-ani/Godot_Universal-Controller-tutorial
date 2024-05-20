@@ -1,83 +1,62 @@
 extends Node
 class_name Move
 
-var player : CharacterBody3D
+var humanoid : CharacterBody3D
+var animator : AnimationPlayer
 var resources : HumanoidResources
+var combat : HumanoidCombat
+var moves_data_repo : MovesDataRepository
+var container : HumanoidStates
 
-# unique fields to redefine
+
 @export var animation : String
+@export var move_name : String
+@export var priority : int
 @export var backend_animation : String
-@export var animator : AnimationPlayer
 
 # I can tolerate up to two _costs, 
 # the moment I need a third one, I'll create a small ResourceCost class to pay them.
 @export var stamina_cost : float = 0
 
-# general fields for internal usage
 @onready var combos : Array[Combo] 
 
 var enter_state_time : float
 
 var has_queued_move : bool = false
-var queued_move : String = "none, drop error please"
+var queued_move : String = "nonexistent queued move, drop error please"
 
 var has_forced_move : bool = false
-var forced_move : String = "none, drop error please"
+var forced_move : String = "nonexistent forced move, drop error please"
 
-## parameters windows incorporation way N2
-# here and below in methods because I chose this way
-var moves_data_repo : MovesDataRepository
-
-
-static var moves_priority : Dictionary = {
-	"idle" : 1,
-	"run" : 2,
-	"sprint" : 3,
-	"jump_run" : 10,
-	"midair" : 10,
-	"landing_run" : 10,
-	"jump_sprint" : 10,
-	"landing_sprint" : 10,
-	"slash_1" : 15,
-	"slash_2" : 15,
-	"slash_3" : 15,
-	"parry" : 20,
-	"riposte" : 25,
-	"parried" : 100,
-	"staggered" : 100,
-	"death" : 200
-}
-
-
-static func moves_priority_sort(a : String, b : String):
-	if moves_priority[a] > moves_priority[b]:
-		return true
-	else:
-		return false
-
+var DURATION : float
 
 func check_relevance(input : InputPackage) -> String:
+	if accepts_queueing():
+		check_combos(input)
+	
+	if has_queued_move and transitions_to_queued():
+		try_force_move(queued_move)
+		has_queued_move = false
+	
 	if has_forced_move:
 		has_forced_move = false
 		return forced_move
-	# nah, too early
-	check_combos(input) # we need to individually deny combos(9(
-	# too late
-	return default_lifecycle(input)   # and also to work in updates sometime
+	
+	return default_lifecycle(input)
 
 
 func check_combos(input : InputPackage):
 	for combo : Combo in combos:
-		if combo.is_triggered(input) and resources.can_be_paid(player.model.moves[combo.triggered_move]):
+		if combo.is_triggered(input) and resources.can_be_paid(container.moves[combo.triggered_move]):
 			has_queued_move = true
 			queued_move = combo.triggered_move
 
 
 func best_input_that_can_be_paid(input : InputPackage) -> String:
-	input.actions.sort_custom(moves_priority_sort)
+	input.actions.sort_custom(container.moves_priority_sort)
 	for action in input.actions:
-		if resources.can_be_paid(player.model.moves[action]):
-			if player.model.moves[action] == self:
+		if resources.can_be_paid(container.moves[action]):
+			if container.moves[action] == self:
 				return "okay"
 			else:
 				return action
@@ -111,6 +90,11 @@ func works_between(start : float, finish : float) -> bool:
 		return true
 	return false
 
+func transitions_to_queued() -> bool:
+	return moves_data_repo.get_transitions_to_queued(backend_animation, get_progress())
+
+func accepts_queueing() -> bool:
+	return moves_data_repo.get_accepts_queueing(backend_animation, get_progress())
 
 func is_vulnerable() -> bool:
 	return moves_data_repo.get_vulnerable(backend_animation, get_progress())
@@ -121,10 +105,18 @@ func is_interruptable() -> bool:
 func is_parryable() -> bool:
 	return moves_data_repo.get_parryable(backend_animation, get_progress())
 
+func get_root_position_delta(delta_time : float) -> Vector3:
+	return moves_data_repo.get_root_delta_pos(backend_animation, get_progress(), delta_time)
 
-func default_lifecycle(_input : InputPackage) -> String:
-	#can return idle, but I want this error to be thrown to make me-from-the-future's life easier
-	return "implement default lyfecycle pepega " + animation
+func right_weapon_hurts() -> bool:
+	return moves_data_repo.get_right_weapon_hurts(backend_animation, get_progress())
+
+# "default-default", works for animations that just linger
+func default_lifecycle(input : InputPackage):
+	if works_longer_than(DURATION):
+		return best_input_that_can_be_paid(input)
+	return "okay"
+
 
 func update(_input : InputPackage, _delta : float):
 	pass
@@ -163,5 +155,5 @@ func try_force_move(new_forced_move : String):
 	if not has_forced_move:
 		has_forced_move = true
 		forced_move = new_forced_move
-	elif moves_priority[new_forced_move] >= moves_priority[forced_move]:
+	elif container.moves[new_forced_move].priority >= container.moves[forced_move].priority:
 		forced_move = new_forced_move

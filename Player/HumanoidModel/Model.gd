@@ -17,34 +17,14 @@ class_name PlayerModel
 	#....
 #}
 
-var current_move : Move
+@onready var current_move : Move
+@onready var moves_container : HumanoidStates = $States
 
-@onready var moves = {
-	"idle" : $States/Idle,
-	"run" : $States/Run,
-	"sprint" : $States/Sprint,
-	"jump_run" : $States/JumpRun,
-	"midair" : $States/Midair,
-	"landing_run" : $States/LandingRun,
-	"jump_sprint" : $States/JumpSprint,
-	"landing_sprint" : $States/LandingSprint,
-	"slash_1" : $States/Slash1,
-	"slash_2" : $States/Slash2,
-	"slash_3" : $States/Slash3,
-	"staggered" : $States/Staggered,
-	"parry" : $States/Parry,
-	"riposte" : $States/Riposte,
-	"parried" : $States/Parried,
-	"death" : $States/Death,
-}
 
 func _ready():
-	current_move = moves["idle"]
-	for move : Move in moves.values():
-		move.player = player
-		move.resources = resources
-		move.moves_data_repo = $MovesData
-		move.assign_combos()
+	moves_container.humanoid = player
+	moves_container.accept_moves()
+	current_move = moves_container.moves["idle"]
 
 
 func update(input : InputPackage, delta : float):
@@ -58,9 +38,10 @@ func update(input : InputPackage, delta : float):
 
 
 func switch_to(state : String):
-	#print("switching from " + current_move.animation + " to " + state)
+	if not is_enemy:
+		print(current_move.move_name + " -> " + state)
 	current_move.on_exit_state()
-	current_move = moves[state]
+	current_move = moves_container.moves[state]
 	current_move.on_enter_state()
 	current_move.mark_enter_state()
 	resources.pay_resource_cost(current_move)

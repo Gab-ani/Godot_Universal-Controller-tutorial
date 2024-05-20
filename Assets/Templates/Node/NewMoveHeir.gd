@@ -1,10 +1,6 @@
 extends Move
 
-# Step 2: redefine your overriden parameters in the editor window
-
-# Step 3: navigate to Model and add a new state to moves dictionary
-# Step 4: navigate to base Move and add this new state to priority dictionary
-
+# redefine your new Move fields in the editor, set up 
 
 func default_lifecycle(input : InputPackage):
 	pass
