@@ -1,4 +1,4 @@
-extends Node
+extends RefCounted
 class_name InputPackage
 
 var actions : Array[String]
