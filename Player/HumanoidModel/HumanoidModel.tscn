@@ -4122,8 +4122,14 @@ _data = {
 "staggered_params": SubResource("Animation_4hl1x")
 }
 
-[node name="Model" type="Node3D"]
+[node name="Model" type="Node3D" node_paths=PackedStringArray("skeleton", "animator", "combat", "resources", "active_weapon", "moves_container")]
 script = ExtResource("1_mokw1")
+skeleton = NodePath("GeneralSkeleton")
+animator = NodePath("SkeletonAnimator")
+combat = NodePath("Combat")
+resources = NodePath("Resources")
+active_weapon = NodePath("RightWrist/WeaponSocket/Sword")
+moves_container = NodePath("States")
 
 [node name="DEV_ROOTFORGE" type="Node" parent="."]
 script = ExtResource("2_uavh5")
@@ -4602,7 +4608,7 @@ bones/64/rotation = Quaternion(0, 0, 0, 1)
 bones/64/scale = Vector3(1, 1, 1)
 
 [node name="Root" type="BoneAttachment3D" parent="."]
-transform = Transform3D(0.45694, -0.0967436, -0.884221, -0.31607, 0.911534, -0.263068, 0.831448, 0.399682, 0.385939, 0.00106751, 0.775175, -0.0646505)
+transform = Transform3D(0.45694, -0.0967432, -0.884221, -0.31607, 0.911535, -0.263067, 0.831448, 0.399681, 0.385939, 0.00106751, 0.775175, -0.0646505)
 bone_name = "Hips"
 bone_idx = 0
 use_external_skeleton = true
@@ -4619,7 +4625,7 @@ transform = Transform3D(1, -1.21072e-08, 3.72529e-09, 9.31323e-10, 1, 0, 7.45058
 shape = SubResource("CapsuleShape3D_47cuq")
 
 [node name="RightWrist" type="BoneAttachment3D" parent="."]
-transform = Transform3D(-0.955725, -0.285656, 0.0706442, -0.099169, 0.0866404, -0.991292, 0.277048, -0.954408, -0.111133, -0.293564, 1.32627, -0.412142)
+transform = Transform3D(-0.955725, -0.285655, 0.0706447, -0.0991693, 0.0866395, -0.991292, 0.277047, -0.954408, -0.111132, -0.293564, 1.32627, -0.412143)
 bone_name = "RightHand"
 bone_idx = 10
 use_external_skeleton = true

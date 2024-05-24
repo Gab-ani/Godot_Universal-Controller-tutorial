@@ -20,7 +20,8 @@ collider = NodePath("Collider")
 
 [node name="Visuals" parent="." instance=ExtResource("2_yjnpd")]
 
-[node name="Model" parent="." instance=ExtResource("3_b4ws5")]
+[node name="Model" parent="." node_paths=PackedStringArray("humanoid") instance=ExtResource("3_b4ws5")]
+humanoid = NodePath("..")
 
 [node name="Input" type="Node" parent="."]
 script = ExtResource("4_k1mdb")
