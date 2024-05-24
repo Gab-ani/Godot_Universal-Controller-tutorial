@@ -1,9 +1,9 @@
 extends CharacterBody3D
 
 
-@onready var ai = $AI
-@onready var model = $Model as PlayerModel
-@onready var visuals = $Visuals as PlayerVisuals
+@export var ai:Node
+@export var model:PlayerModel
+@export var visuals:PlayerVisuals
 
 
 func _ready():
@@ -13,7 +13,7 @@ func _ready():
 
 
 func _physics_process(delta):
-	var input = ai.create_input(delta)
+	var input:InputPackage = ai.create_input(delta)
 	model.update(input, delta)
 	
 	# Visuals -> follow parent transformations
