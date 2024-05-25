@@ -18,4 +18,3 @@ func _physics_process(delta):
 	
 	# Visuals -> follow parent transformations
 	
-	input.queue_free()
