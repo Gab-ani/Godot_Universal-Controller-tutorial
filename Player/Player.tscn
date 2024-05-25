@@ -10,12 +10,18 @@
 radius = 0.2
 height = 1.8
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("input_gatherer", "model", "visuals", "camera_mount", "collider")]
 script = ExtResource("1_1ax3b")
+input_gatherer = NodePath("Input")
+model = NodePath("Model")
+visuals = NodePath("Visuals")
+camera_mount = NodePath("CameraMount")
+collider = NodePath("Collider")
 
 [node name="Visuals" parent="." instance=ExtResource("2_yjnpd")]
 
-[node name="Model" parent="." instance=ExtResource("3_b4ws5")]
+[node name="Model" parent="." node_paths=PackedStringArray("humanoid") instance=ExtResource("3_b4ws5")]
+humanoid = NodePath("..")
 
 [node name="Input" type="Node" parent="."]
 script = ExtResource("4_k1mdb")

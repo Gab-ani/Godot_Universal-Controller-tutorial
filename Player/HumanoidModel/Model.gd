@@ -3,13 +3,15 @@ class_name PlayerModel
 
 @export var is_enemy : bool = false
 
-@onready var player = $".."
-@onready var skeleton = %GeneralSkeleton
-@onready var animator = $SkeletonAnimator
-@onready var combat = $Combat as HumanoidCombat
-@onready var resources = $Resources as HumanoidResources
+@export var humanoid:CharacterBody3D
+@export var skeleton:Skeleton3D
+@export var animator:AnimationPlayer
+@export var combat:HumanoidCombat
+@export var resources:HumanoidResources
 
-@onready var active_weapon : Weapon = $RightWrist/WeaponSocket/Sword as Sword
+@export var active_weapon:Weapon
+@export var moves_container:HumanoidStates
+
 #@onready var weapons = {
 	#"sword" = $....Sword,
 	#"bow" = $....Bow,
@@ -17,12 +19,11 @@ class_name PlayerModel
 	#....
 #}
 
-@onready var current_move : Move
-@onready var moves_container : HumanoidStates = $States
+var current_move : Move
 
 
 func _ready():
-	moves_container.humanoid = player
+	moves_container.humanoid = humanoid
 	moves_container.accept_moves()
 	current_move = moves_container.moves["idle"]
 
