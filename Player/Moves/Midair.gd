@@ -1,8 +1,5 @@
 extends Move
 
-@onready var downcast = $"../../Downcast"
-@onready var root_attachment = $"../../Root"
-
 @export var DELTA_VECTOR_LENGTH = 6
 var jump_direction : Vector3
 
@@ -10,8 +7,8 @@ var landing_height : float = 1.163
 
 
 func default_lifecycle(_input : InputPackage):
-	var floor_point = downcast.get_collision_point()
-	if root_attachment.global_position.distance_to(floor_point) < landing_height and downcast.is_colliding():
+	var floor_distance = area_awareness.get_floor_distance()
+	if floor_distance < landing_height:
 		var xz_velocity = humanoid.velocity
 		xz_velocity.y = 0
 		if xz_velocity.length_squared() >= 10:

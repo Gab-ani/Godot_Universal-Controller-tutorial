@@ -8,6 +8,7 @@ const TRANSITION_TIMING = 0.2
 # and the rest of the animation is just for smoother blending
 # TODO fix cyclic landings-midairs when edge clipping
 func default_lifecycle(input : InputPackage):
+# demonstration of innate trashyness of mixing built in is_on_floor() and advanced techs
 	#if not humanoid.is_on_floor():
 		#return "midair"
 	if works_longer_than(TRANSITION_TIMING):

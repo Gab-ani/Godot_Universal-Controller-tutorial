@@ -24,7 +24,7 @@ func react_on_hit(hit : HitData):
 		super.react_on_hit(hit)
 
 
-func update_resources(delta : float):
+func update_resources(_delta : float):
 	pass # normally would be some routine, but we only regenerate stamina now, so empty method
 
 # Don't forget you can even override the class getters!)

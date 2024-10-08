@@ -18,7 +18,7 @@ func default_lifecycle(_input : InputPackage):
 		return "okay"
 
 
-func update(_input : InputPackage, delta ):
+func update(_input : InputPackage, _delta ):
 	process_jump()
 	humanoid.move_and_slide()
 

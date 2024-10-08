@@ -1,6 +1,6 @@
 extends RayCast3D
 
-@onready var root_attachment = $"../Root"
+@export var root_attachment : BoneAttachment3D
 
 @onready var csg_sphere_3d_2 = $CSGSphere3D2
 

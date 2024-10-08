@@ -57,15 +57,15 @@
 [ext_resource type="Script" path="res://Player/Moves/Death.gd" id="49_8rd2l"]
 [ext_resource type="Script" path="res://Player/Moves/Ripost.gd" id="50_q88vv"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_47cuq"]
-radius = 0.3
-height = 1.85
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_djdo1"]
 albedo_color = Color(0, 0.639216, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vsr0n"]
 albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_47cuq"]
+radius = 0.3
+height = 1.85
 
 [sub_resource type="Animation" id="Animation_k5lpg"]
 resource_name = "TPose"
@@ -2623,6 +2623,23 @@ script = ExtResource("8_f0bal")
 [node name="AreaAwareness" type="Node" parent="."]
 script = ExtResource("7_afbqj")
 
+[node name="Downcast" type="RayCast3D" parent="AreaAwareness" node_paths=PackedStringArray("root_attachment")]
+transform = Transform3D(1, -3.72529e-09, -1.49012e-08, -3.72529e-09, 1, 0, 0, 0, 1, -3.72529e-09, 0, -7.45058e-09)
+target_position = Vector3(0, -100, 0)
+collision_mask = 2
+script = ExtResource("15_7aq3l")
+root_attachment = NodePath("../../Root")
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="AreaAwareness/Downcast"]
+visible = false
+material_override = SubResource("StandardMaterial3D_djdo1")
+radius = 0.2
+
+[node name="CSGSphere3D2" type="CSGSphere3D" parent="AreaAwareness/Downcast"]
+visible = false
+material_override = SubResource("StandardMaterial3D_vsr0n")
+radius = 0.1
+
 [node name="GeneralSkeleton" type="Skeleton3D" parent="."]
 unique_name_in_owner = true
 motion_scale = 1.04275
@@ -3135,21 +3152,6 @@ transform = Transform3D(0.987281, 0.158985, -1.16882e-08, -0.158985, 0.98728, -1
 collision_mask = 4
 holder = NodePath("../../..")
 
-[node name="Downcast" type="RayCast3D" parent="."]
-target_position = Vector3(0, -100, 0)
-collision_mask = 2
-script = ExtResource("15_7aq3l")
-
-[node name="CSGSphere3D" type="CSGSphere3D" parent="Downcast"]
-visible = false
-material_override = SubResource("StandardMaterial3D_djdo1")
-radius = 0.2
-
-[node name="CSGSphere3D2" type="CSGSphere3D" parent="Downcast"]
-visible = false
-material_override = SubResource("StandardMaterial3D_vsr0n")
-radius = 0.1
-
 [node name="States" parent="." node_paths=PackedStringArray("animator", "skeleton", "resources", "combat", "area_awareness", "moves_data_repo", "legs") instance=ExtResource("30_xkqvj")]
 animator = NodePath("../SplitBodyAnimator")
 skeleton = NodePath("../GeneralSkeleton")
@@ -3227,8 +3229,6 @@ animation = "midair"
 move_name = "midair"
 priority = 10
 backend_animation = "midair_params"
-tracking_angular_speed = null
-stamina_cost = null
 
 [node name="LandingRun" type="Node" parent="States"]
 script = ExtResource("40_j5e1a")
