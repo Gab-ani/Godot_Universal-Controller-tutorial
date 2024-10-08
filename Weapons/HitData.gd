@@ -1,4 +1,4 @@
-extends Node
+extends Resource
 class_name HitData
 
 var is_parryable : bool
