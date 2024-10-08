@@ -1,4 +1,4 @@
-extends Node
+extends Resource
 class_name InputPackage
 
 var actions : Array[String]

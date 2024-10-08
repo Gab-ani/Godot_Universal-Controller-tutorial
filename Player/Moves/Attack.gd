@@ -18,7 +18,6 @@ func default_lifecycle(input : InputPackage) -> String:
 
 func update(_input : InputPackage, delta):
 	move_player(delta)
-	
 	humanoid.model.active_weapon.is_attacking = right_weapon_hurts()
 
 
@@ -27,7 +26,7 @@ func move_player(delta : float):
 	delta_pos.y = 0
 	humanoid.velocity = humanoid.get_quaternion() * delta_pos / delta
 	if not humanoid.is_on_floor():
-		humanoid.velocity.y -= ProjectSettings.get_setting("physics/3d/default_gravity") * delta
+		humanoid.velocity.y -= gravity * delta
 		has_forced_move = true
 		forced_move = "midair"
 	humanoid.move_and_slide()

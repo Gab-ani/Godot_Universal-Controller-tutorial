@@ -1,6 +1,6 @@
 extends Node
 
-@onready var skeleton_animator = $"../SkeletonAnimator"
+@onready var skeleton_animator = $"../DEV_SkeletonAnimator"
 @onready var move_database = $"../States/MovesData/MoveDatabase"
 @onready var model = $".."
 

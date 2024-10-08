@@ -1,9 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://b6h2mf8m3b8iu"]
+[gd_scene load_steps=11 format=3 uid="uid://b6h2mf8m3b8iu"]
 
 [ext_resource type="PackedScene" uid="uid://drjqcoul7pinv" path="res://Player/Player.tscn" id="1_86wwi"]
 [ext_resource type="Texture2D" uid="uid://cxakm34q14rbi" path="res://Assets/Textures/texture_07.png" id="1_m20ri"]
 [ext_resource type="Texture2D" uid="uid://q67efx1u7rk1" path="res://Assets/Textures/texture_09.png" id="3_ruxjn"]
-[ext_resource type="PackedScene" uid="uid://bahdjbnc0tbot" path="res://Enemies/Humanoid/Enemy.tscn" id="4_fvt4j"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jw8o1"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -58,7 +57,7 @@ material_override = SubResource("StandardMaterial3D_qkxf5")
 radius = 0.2
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.918605, 0.395177, 0, -0.395177, 0.918605, 0, 5.32085, 8.02546)
+transform = Transform3D(1, 0, 0, 0, 0.511878, 0.859058, 0, -0.859058, 0.511878, 0, 7.65111, -6.09804)
 
 [node name="Box1" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.90411, 0.504346, 1.79941)
@@ -80,15 +79,3 @@ material_override = SubResource("StandardMaterial3D_ip2nn")
 use_collision = true
 collision_layer = 3
 size = Vector3(2, 10, 2)
-
-[node name="Enemy" parent="." instance=ExtResource("4_fvt4j")]
-transform = Transform3D(-0.0727682, 0, -0.997349, 0, 1, 0, 0.997349, 0, -0.0727682, 8.20234, -0.5, -9.76987)
-
-[node name="Enemy2" parent="." instance=ExtResource("4_fvt4j")]
-transform = Transform3D(0.277197, 0, -0.960813, 0, 1, 0, 0.960813, 0, 0.277197, 6.7836, -0.5, -14.2592)
-
-[node name="AI" parent="Enemy2" index="0"]
-mode = "spamming parry"
-
-[editable path="Enemy"]
-[editable path="Enemy2"]

@@ -4,9 +4,3 @@
 
 [node name="Attack" type="Node"]
 script = ExtResource("1_vxlea")
-RELEASES_PRIORITY = null
-animation = null
-move_name = null
-priority = null
-backend_animation = null
-stamina_cost = null
