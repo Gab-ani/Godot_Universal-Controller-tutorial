@@ -11,10 +11,6 @@ var full_body_mode : bool = true
 var synchronization_delta = 0.01
 
 
-func _ready():
-	legs_animator.set_blend_time("idle_longsword_legs", "walk_legs", 0.3)
-
-
 func update_body_animations():
 	update_playmode()
 	set_animations()
