@@ -18,4 +18,3 @@ func _physics_process(delta):
 	var input = input_gatherer.gather_input()
 	model.update(input, delta)
 	# Visuals -> follow parent transformations
-

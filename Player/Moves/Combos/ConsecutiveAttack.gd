@@ -7,4 +7,3 @@ func is_triggered(input : InputPackage):
 	if input.actions.has(primary_input):
 		return true
 	return false
-

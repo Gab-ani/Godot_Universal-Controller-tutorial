@@ -38,5 +38,3 @@ func get_right_weapon_hurts(animation : String, timecode : float) -> bool:
 
 func tracks_input_vector(animation : String, timecode : float) -> bool:
 	return move_database.get_boolean_value(animation, "MoveDatabase:tracks_input_vector", timecode)
-
-

@@ -34,4 +34,3 @@ func gather_input() -> InputPackage:
 	
 	#print(new_input.input_direction)
 	return new_input
-

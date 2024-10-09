@@ -16,4 +16,3 @@ func get_boolean_value(animation : String, track_name : String, timecode : float
 	var data = get_animation(animation)
 	var track = data.find_track(track_name, Animation.TYPE_VALUE)
 	return data.value_track_interpolate(track, timecode)
-
