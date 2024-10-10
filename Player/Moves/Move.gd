@@ -1,7 +1,7 @@
 extends Node
 class_name Move
 
-var humanoid : CharacterBody3D
+var player : CharacterBody3D
 #var base_animator : AnimationPlayer
 var animator : SplitBodyAnimator # or BodyPartsBlender
 var skeleton : Skeleton3D
@@ -81,10 +81,10 @@ func update(_input : InputPackage, _delta : float):
 	pass
 
 func process_input_vector(input : InputPackage, delta : float):
-	var input_direction = (humanoid.camera_mount.basis * Vector3(-input.input_direction.x, 0, -input.input_direction.y)).normalized()
-	var face_direction = humanoid.basis.z
+	var input_direction = (player.camera_mount.basis * Vector3(-input.input_direction.x, 0, -input.input_direction.y)).normalized()
+	var face_direction = player.basis.z
 	var angle = face_direction.signed_angle_to(input_direction, Vector3.UP)
-	humanoid.rotate_y(clamp(angle, -tracking_angular_speed * delta, tracking_angular_speed * delta))
+	player.rotate_y(clamp(angle, -tracking_angular_speed * delta, tracking_angular_speed * delta))
 
 func update_resources(delta : float):
 	resources.update(delta)
@@ -150,7 +150,7 @@ func default_lifecycle(input : InputPackage):
 
 
 func _on_enter_state():
-	initial_position = humanoid.global_position
+	initial_position = player.global_position
 	resources.pay_resource_cost(self)
 	mark_enter_state()
 	on_enter_state()

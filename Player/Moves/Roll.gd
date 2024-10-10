@@ -12,12 +12,12 @@ func update(_input : InputPackage, delta):
 func move_player(delta : float):
 	var delta_pos = get_root_position_delta(delta)
 	delta_pos.y = 0
-	var rotated_delta = humanoid.get_quaternion() * delta_pos / delta
-	humanoid.velocity.x = rotated_delta.x
-	humanoid.velocity.z = rotated_delta.z
-	if not humanoid.is_on_floor():
-		humanoid.velocity.y -= gravity * delta
-	humanoid.move_and_slide()
+	var rotated_delta = player.get_quaternion() * delta_pos / delta
+	player.velocity.x = rotated_delta.x
+	player.velocity.z = rotated_delta.z
+	if not player.is_on_floor():
+		player.velocity.y -= gravity * delta
+	player.move_and_slide()
 
 # I'm currently debating myself about adding this resetting into base Move.
 # This is a lil crotch for "one shot" animations that can be chained,
@@ -32,9 +32,9 @@ func on_enter_state():
 	animator.reset_legs_animation()
 	
 	var input = area_awareness.last_input_package
-	var input_direction = (humanoid.camera_mount.basis * Vector3(-input.input_direction.x, 0, -input.input_direction.y)).normalized()
+	var input_direction = (player.camera_mount.basis * Vector3(-input.input_direction.x, 0, -input.input_direction.y)).normalized()
 	if input_direction:
-		humanoid.look_at(humanoid.global_position + input_direction, Vector3.UP, true)
+		player.look_at(player.global_position + input_direction, Vector3.UP, true)
 
 
 func best_input_that_can_be_paid(input : InputPackage) -> String:

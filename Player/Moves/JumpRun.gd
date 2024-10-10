@@ -19,16 +19,16 @@ func default_lifecycle(_input : InputPackage):
 
 func update(_input : InputPackage, _delta ):
 	process_jump()
-	humanoid.move_and_slide()
+	player.move_and_slide()
 
 
 func process_jump():
 	if works_longer_than(JUMP_TIMING):
 		if not jumped:
-			humanoid.velocity = humanoid.basis.z * SPEED 
-			humanoid.velocity.y += VERTICAL_SPEED_ADDED
+			player.velocity = player.basis.z * SPEED 
+			player.velocity.y += VERTICAL_SPEED_ADDED
 			jumped = true
 
 
 func on_enter_state():
-	humanoid.velocity = humanoid.velocity.normalized() * SPEED 
+	player.velocity = player.velocity.normalized() * SPEED 

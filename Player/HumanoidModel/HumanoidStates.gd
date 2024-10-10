@@ -2,7 +2,7 @@ extends Node
 class_name HumanoidStates
 
 
-@export var humanoid : CharacterBody3D
+@export var player : CharacterBody3D
 #@export var base_animator : AnimationPlayer
 @export var animator : SplitBodyAnimator
 @export var skeleton : Skeleton3D
@@ -20,7 +20,7 @@ func accept_moves():
 	for child in get_children():
 		if child is Move:
 			moves[child.move_name] = child
-			child.humanoid = humanoid
+			child.player = player
 			child.animator = animator
 			child.skeleton = skeleton
 #			child.base_animator = base_animator

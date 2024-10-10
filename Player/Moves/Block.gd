@@ -5,17 +5,17 @@ extends TorsoPartialMove
 
 
 func default_lifecycle(input : InputPackage):
-	if not humanoid.is_on_floor():
+	if not player.is_on_floor():
 		return "midair"
 	return best_input_that_can_be_paid(input)
 
 
 func react_on_hit(hit : HitData):
 	var weapon_position : Vector3 = hit.weapon.global_position
-	var our_position = humanoid.global_position
+	var our_position = player.global_position
 	our_position.y = weapon_position.y
 	var hit_direction : Vector3 = our_position.direction_to(weapon_position)
-	var face_direction = humanoid.basis.z
+	var face_direction = player.basis.z
 	if face_direction.angle_to(hit_direction) < block_sector / 2:
 		print("blocked a hit")
 		resources.pay_block_cost(hit.damage, block_coefficient)

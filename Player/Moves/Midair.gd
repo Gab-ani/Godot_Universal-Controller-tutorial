@@ -9,7 +9,7 @@ var landing_height : float = 1.163
 func default_lifecycle(_input : InputPackage):
 	var floor_distance = area_awareness.get_floor_distance()
 	if floor_distance < landing_height:
-		var xz_velocity = humanoid.velocity
+		var xz_velocity = player.velocity
 		xz_velocity.y = 0
 		if xz_velocity.length_squared() >= 10:
 			return "landing_sprint"
@@ -19,19 +19,19 @@ func default_lifecycle(_input : InputPackage):
 
 
 func update(_input : InputPackage, delta ):
-	humanoid.velocity.y -= gravity * delta
-	humanoid.move_and_slide()
+	player.velocity.y -= gravity * delta
+	player.move_and_slide()
 
 
 func process_input_vector(input : InputPackage, delta : float):
-	var input_direction = (humanoid.camera_mount.basis * Vector3(-input.input_direction.x, 0, -input.input_direction.y)).normalized()
+	var input_direction = (player.camera_mount.basis * Vector3(-input.input_direction.x, 0, -input.input_direction.y)).normalized()
 	var input_delta_vector = input_direction * DELTA_VECTOR_LENGTH
 	
-	jump_direction = (jump_direction + input_delta_vector * delta).limit_length(clamp(humanoid.velocity.length(), 1, 999999))
-	humanoid.look_at(humanoid.global_position - jump_direction)
+	jump_direction = (jump_direction + input_delta_vector * delta).limit_length(clamp(player.velocity.length(), 1, 999999))
+	player.look_at(player.global_position - jump_direction)
 	
-	var new_velocity = (humanoid.velocity + input_delta_vector * delta).limit_length(humanoid.velocity.length())
-	humanoid.velocity = new_velocity
+	var new_velocity = (player.velocity + input_delta_vector * delta).limit_length(player.velocity.length())
+	player.velocity = new_velocity
 
 
 func on_enter_state():
@@ -41,5 +41,5 @@ func on_enter_state():
 	#    Scaling jump_direction with velocity is giving us that natural behaviour of faster jumps (sprints)
 	#    being less controllable, and jumps from standing position being more volatile.
 	#    The dependance on velocity paramter is not critical, delete this if you don't like the approach.
-	jump_direction = Vector3(humanoid.basis.z) * clamp(humanoid.velocity.length(), 1, 999999)
+	jump_direction = Vector3(player.basis.z) * clamp(player.velocity.length(), 1, 999999)
 	jump_direction.y = 0

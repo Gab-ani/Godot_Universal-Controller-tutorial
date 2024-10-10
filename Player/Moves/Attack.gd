@@ -18,18 +18,18 @@ func default_lifecycle(input : InputPackage) -> String:
 
 func update(_input : InputPackage, delta):
 	move_player(delta)
-	humanoid.model.active_weapon.is_attacking = right_weapon_hurts()
+	player.model.active_weapon.is_attacking = right_weapon_hurts()
 
 
 func move_player(delta : float):
 	var delta_pos = get_root_position_delta(delta)
 	delta_pos.y = 0
-	humanoid.velocity = humanoid.get_quaternion() * delta_pos / delta
-	if not humanoid.is_on_floor():
-		humanoid.velocity.y -= gravity * delta
+	player.velocity = player.get_quaternion() * delta_pos / delta
+	if not player.is_on_floor():
+		player.velocity.y -= gravity * delta
 		has_forced_move = true
 		forced_move = "midair"
-	humanoid.move_and_slide()
+	player.move_and_slide()
 
 
 func form_hit_data(weapon : Weapon) -> HitData:
@@ -37,10 +37,10 @@ func form_hit_data(weapon : Weapon) -> HitData:
 	hit.damage = hit_damage
 	hit.hit_move_animation = animation
 	hit.is_parryable = is_parryable()
-	hit.weapon = humanoid.model.active_weapon
+	hit.weapon = player.model.active_weapon
 	return hit
 
 
 func on_exit_state():
-	humanoid.model.active_weapon.hitbox_ignore_list.clear()
-	humanoid.model.active_weapon.is_attacking = false
+	player.model.active_weapon.hitbox_ignore_list.clear()
+	player.model.active_weapon.is_attacking = false

@@ -5127,7 +5127,6 @@ animation = "roll"
 move_name = "roll"
 priority = 20
 backend_animation = "roll_params"
-tracking_angular_speed = null
 stamina_cost = 20.0
 
 [node name="Staggered" type="Node" parent="States"]
@@ -5154,6 +5153,8 @@ animation = "parried"
 move_name = "parried"
 priority = 100
 backend_animation = "parried_params"
+tracking_angular_speed = null
+stamina_cost = null
 
 [node name="Death" type="Node" parent="States"]
 script = ExtResource("49_8rd2l")

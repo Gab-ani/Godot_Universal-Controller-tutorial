@@ -15,7 +15,7 @@ func is_triggered(input : InputPackage) -> bool:
 # But the workflow is correct, nothing conceptual will change, just better animations etc. 
 func have_target_for_ripost() -> bool:
 	var parried_victims = get_tree().get_nodes_in_group("parried_humanoid")
-	for humanoid in parried_victims:
-		if humanoid.global_position.distance_to(move.humanoid.global_position) < 2:
+	for player in parried_victims:
+		if player.global_position.distance_to(move.player.global_position) < 2:
 			return true
 	return false

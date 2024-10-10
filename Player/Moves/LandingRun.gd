@@ -9,13 +9,13 @@ const TRANSITION_TIMING = 0.2
 # TODO fix cyclic landings-midairs when edge clipping
 func default_lifecycle(input : InputPackage):
 # demonstration of innate trashyness of mixing built in is_on_floor() and advanced techs
-	#if not humanoid.is_on_floor():
-		#return "midair"
+	if not player.is_on_floor():
+		return "midair"
 	if works_longer_than(TRANSITION_TIMING):
 		return best_input_that_can_be_paid(input)
 	return "okay"
 
 
 func update(_input : InputPackage, delta ):
-	humanoid.velocity.y -= gravity * delta
-	humanoid.move_and_slide()
+	player.velocity.y -= gravity * delta
+	player.move_and_slide()
