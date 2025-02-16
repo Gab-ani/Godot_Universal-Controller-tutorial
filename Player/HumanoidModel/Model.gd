@@ -28,6 +28,7 @@ func _ready():
 	moves_container.player = player
 	moves_container.accept_moves()
 	current_move = moves_container.moves["idle"]
+	switch_to("idle")
 	legs.current_legs_move = moves_container.get_move_by_name("idle")
 	legs.accept_behaviours()
 
