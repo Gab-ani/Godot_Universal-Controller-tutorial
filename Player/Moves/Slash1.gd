@@ -21,8 +21,8 @@ func default_lifecycle(input : InputPackage) -> String:
 		# is a custom idle transition already done by an animator during asset creation
 		elif best_input != "idle":
 			return best_input
-	elif works_longer_than(ANIMATION_END):
-		return best_input
+		elif works_longer_than(ANIMATION_END):
+			return best_input
 	return "okay"
 	
 	
